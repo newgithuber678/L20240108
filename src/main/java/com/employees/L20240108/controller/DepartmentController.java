@@ -2,6 +2,7 @@ package com.employees.L20240108.controller;
 
 import com.employees.L20240108.model.Employee;
 import com.employees.L20240108.service.DepartmentService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -20,12 +21,12 @@ public class DepartmentController {
         this.service = service;
     }
     @GetMapping("/max-salary")
-    public Employee findMaxSalary(@RequestParam int departmentId){
-        return service.findMaxSalary(departmentId);
+    public ResponseEntity<Employee> findMaxSalary(@RequestParam int departmentId){
+        return ResponseEntity.of(service.findMaxSalary(departmentId));
     }
     @GetMapping("/min-salary")
-    public Employee findMinSalary(@RequestParam int departmentId){
-        return service.findMinSalary(departmentId);
+    public ResponseEntity<Employee> findMinSalary(@RequestParam int departmentId){
+        return ResponseEntity.of(service.findMinSalary(departmentId));
     }
     @GetMapping(value="/all", params={"departmentId"})
     public Collection<Employee> findAllByDepartment(@RequestParam int departmentId){

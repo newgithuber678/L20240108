@@ -14,15 +14,15 @@ public class DepartmentService {
         this.employeeService = employeeService;
     }
 
-    public Employee findMaxSalary(int department) {
-        return employeeService.getAll().stream()
+    public Optional<Employee> findMaxSalary(int department) {
+        return Optional.ofNullable(employeeService.getAll().stream()
                 .filter(e -> e.getDepartment() == department)
-                .max(Comparator.comparingInt(Employee::getSalary)).orElse(null);
+                .max(Comparator.comparingInt(Employee::getSalary)).orElse(null));
     }
-    public Employee findMinSalary(int department) {
-        return employeeService.getAll().stream()
+    public Optional<Employee> findMinSalary(int department) {
+        return Optional.ofNullable(employeeService.getAll().stream()
                 .filter(e -> e.getDepartment() == department)
-                .min(Comparator.comparingInt(Employee::getSalary)).orElse(null);
+                .min(Comparator.comparingInt(Employee::getSalary)).orElse(null));
     }
     public Collection<Employee> findByDepartment(int department){
         return employeeService.getAll().stream()
