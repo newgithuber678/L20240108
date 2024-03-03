@@ -21,8 +21,8 @@ public class DepartmentController {
         this.service = service;
     }
     @GetMapping("/max-salary")
-    public ResponseEntity<Employee> findMaxSalary(@RequestParam int departmentId){
-        return ResponseEntity.of(service.findMaxSalary(departmentId));
+    public Employee findMaxSalary(@RequestParam int departmentId){
+        return service.findMaxSalary(departmentId);
     }
     @GetMapping("/min-salary")
     public ResponseEntity<Employee> findMinSalary(@RequestParam int departmentId){
