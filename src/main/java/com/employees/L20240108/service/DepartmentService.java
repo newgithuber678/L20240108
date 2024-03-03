@@ -1,5 +1,6 @@
 package com.employees.L20240108.service;
 
+import com.employees.L20240108.exceptions.EmployeeNotFoundException;
 import com.employees.L20240108.model.Employee;
 import org.springframework.stereotype.Service;
 
@@ -14,15 +15,16 @@ public class DepartmentService {
         this.employeeService = employeeService;
     }
 
-    public Optional<Employee> findMaxSalary(int department) {
-        return Optional.ofNullable(employeeService.getAll().stream()
+    public Employee findMaxSalary(int department) {
+        return employeeService.getAll().stream()
                 .filter(e -> e.getDepartment() == department)
-                .max(Comparator.comparingInt(Employee::getSalary)).orElse(null));
+                .max(Comparator.comparingInt(Employee::getSalary))
+                .orElseThrow(EmployeeNotFoundException::new);
     }
     public Optional<Employee> findMinSalary(int department) {
-        return Optional.ofNullable(employeeService.getAll().stream()
+        return employeeService.getAll().stream()
                 .filter(e -> e.getDepartment() == department)
-                .min(Comparator.comparingInt(Employee::getSalary)).orElse(null));
+                .min(Comparator.comparingInt(Employee::getSalary));
     }
     public Collection<Employee> findByDepartment(int department){
         return employeeService.getAll().stream()

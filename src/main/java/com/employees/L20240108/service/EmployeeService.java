@@ -3,7 +3,9 @@ package com.employees.L20240108.service;
 import com.employees.L20240108.exceptions.EmployeeAlreadyAddedException;
 import com.employees.L20240108.exceptions.EmployeeNotFoundException;
 import com.employees.L20240108.exceptions.EmployeeStorageIsFullException;
+import com.employees.L20240108.exceptions.WrongNameException;
 import com.employees.L20240108.model.Employee;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -18,6 +20,7 @@ public class EmployeeService {
     public void add(String firstName, String lastName, int salary, int department) {
         if (employees.size() >= MAX_COUNT)
             throw new EmployeeStorageIsFullException();
+        checkLetters(firstName, lastName);
         Employee employee = new Employee(firstName, lastName, salary, department);
         var key = makeKey(firstName, lastName);
         if (employees.containsKey(key)) throw new EmployeeAlreadyAddedException();
@@ -43,6 +46,7 @@ public class EmployeeService {
     }*/
 
     public Employee find(String firstName, String lastName) {
+        checkLetters(firstName, lastName);
         var key = makeKey(firstName, lastName);
         var employee = employees.get(key);
         if (employee != null) return employee;
@@ -56,5 +60,13 @@ public class EmployeeService {
 
     private static String makeKey(String firstName, String lastName) {
         return (firstName + "_" + lastName).toLowerCase();
+    }
+
+    private static void checkLetters(String... words) {
+        for (String word : words) {
+            if (!StringUtils.isAlpha(word)) {
+                throw new WrongNameException("Name of last name must contain only letters");
+            }
+        }
     }
 }
